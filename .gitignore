@@ -52,3 +52,6 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+/.vs/ProjectEvaluation/testhooks.metadata.v9.bin
+/.vs/ProjectEvaluation/testhooks.projects.v9.bin
+/.vs/ProjectEvaluation/testhooks.strings.v9.bin

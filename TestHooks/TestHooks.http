@@ -1,0 +1,6 @@
+@TestHooks_HostAddress = http://localhost:5150
+
+GET {{TestHooks_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

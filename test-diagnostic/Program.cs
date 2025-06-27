@@ -15,27 +15,27 @@ class Program
 
         // 2. 创建观察者并提前订阅
         var observer = new SimpleEventObserver();
-        using var subscription = listener.Subscribe(observer);
+        
+        using var s1 = listener.Subscribe(observer!);
+        using var s2 = listener.Subscribe(new SimpleEventObserver()!);
 
 
-
-
+        Console.WriteLine("=== 业务代码 ===");
         // 3. 创建事件源
-        var source = new SimpleEventSource(listener);
+        var bussiness = new Bussiness(listener);
 
         // 4. 执行工作
-        Console.WriteLine("=== 工作执行 ===");
-        source.DoWork();
+        bussiness.DoWork();
     }
 }
 
-public class SimpleEventSource
+public class Bussiness
 {
     public readonly DiagnosticListener? _listener;
 
     // 通过构造函数传入监听器
     // https://github.com/dotnet/aspnetcore/blob/main/src/Hosting/Hosting/src/Internal/HostingApplication.cs#L24
-    public SimpleEventSource(DiagnosticListener? listener)
+    public Bussiness(DiagnosticListener? listener)
     {
         _listener = listener;
     }
@@ -67,7 +67,7 @@ public class SimpleEventObserver : IObserver<KeyValuePair<string, object>>
 
     public void OnNext(KeyValuePair<string, object> evt)
     {
-        Console.WriteLine($"\n[收到事件] {evt.Key}");
+        Console.WriteLine($"\n[收到事件] {evt.Key}，{this.GetHashCode()}");
         Console.WriteLine($"  内容: {evt.Value}");
         Console.WriteLine($"  时间: {DateTime.Now:HH:mm:ss.fff}");
     }

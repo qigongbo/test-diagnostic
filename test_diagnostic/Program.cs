@@ -5,13 +5,15 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-
+Console.OutputEncoding = System.Text.Encoding.UTF8;
 // 订阅所有 DiagnosticListener
-//var observer = new DiagnosticSourceObserver();
-//using var subscription = DiagnosticListener.AllListeners.Subscribe(observer);
+var observer = new DiagnosticSourceObserver();
+using var subscription = DiagnosticListener.AllListeners.Subscribe(observer);
+//var listener = new DiagnosticListener("SimpleApp");
+//listener.Subscribe(new AspNetCoreObserver()!);
 
 app.MapGet("/", () => "Hello World!");
-app.MapGet("/users", () => "User List");
+app.MapGet("/users", () => "user list");
 app.MapGet("/error", () => { throw new Exception("Test error"); });
 
 app.Run();
@@ -46,7 +48,7 @@ public class AspNetCoreObserver : IObserver<KeyValuePair<string, object>>
     public void OnNext(KeyValuePair<string, object> evt)
     {
         // 取消注释以查看所有事件名称
-        // Console.WriteLine($"收到事件: {evt.Key}");
+        Console.WriteLine($"收到事件: {evt.Key}");
 
         switch (evt.Key)
         {
